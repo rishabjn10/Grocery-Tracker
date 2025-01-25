@@ -1,7 +1,9 @@
-from openai import OpenAI
-from fastapi import HTTPException
 import base64
 import json
+
+from fastapi import HTTPException
+from openai import OpenAI
+
 from app.core.config import settings
 
 
@@ -54,8 +56,23 @@ def parse_order_screenshot(image_path: str):
                             "order_date": {
                                 "anyOf": [
                                     {
-                                        "type": "string",
-                                        "description": "The date when the order was placed in DD-MM-YYYY format.",
+                                        "type": "object",
+                                        "properties": {
+                                            "day": {
+                                                "type": "number",
+                                                "description": "Day of the order date, can be between 1 to 31.",
+                                            },
+                                            "month": {
+                                                "type": "number",
+                                                "description": "Month of the order date, can be between 1 to 12.",
+                                            },
+                                            "year": {
+                                                "type": "number",
+                                                "description": "Year of the order date.",
+                                            },
+                                        },
+                                        "required": ["day", "month", "year"],
+                                        "additionalProperties": False,
                                     },
                                     {"type": "null"},
                                 ]

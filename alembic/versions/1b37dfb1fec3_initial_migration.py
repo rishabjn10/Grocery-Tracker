@@ -1,8 +1,8 @@
 """Initial migration
 
-Revision ID: 571d8dba4578
+Revision ID: 1b37dfb1fec3
 Revises: 
-Create Date: 2025-01-25 00:58:31.140131
+Create Date: 2025-01-25 13:55:10.890380
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '571d8dba4578'
+revision: str = '1b37dfb1fec3'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -31,47 +31,15 @@ def upgrade() -> None:
     )
     op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
-    op.create_table('budgets',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('monthly_budget', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('weekly_budget', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_budgets_id'), 'budgets', ['id'], unique=False)
-    op.create_table('expense_analysis',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('category', sa.String(), nullable=False),
-    sa.Column('monthly_limit', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('weekly_limit', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('monthly_spent_alert_triggered', sa.Boolean(), nullable=True),
-    sa.Column('weekly_spent_alert_triggered', sa.Boolean(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_expense_analysis_id'), 'expense_analysis', ['id'], unique=False)
-    op.create_table('notifications',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('notification_type', sa.String(), nullable=False),
-    sa.Column('message', sa.String(), nullable=False),
-    sa.Column('status', sa.String(), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_index(op.f('ix_notifications_id'), 'notifications', ['id'], unique=False)
     op.create_table('orders',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('order_date', sa.Date(), nullable=False),
+    sa.Column('order_date', sa.Date(), nullable=True),
     sa.Column('total_amount', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('payment_method', sa.String(), nullable=False),
+    sa.Column('payment_method', sa.String(), nullable=True),
+    sa.Column('order_source', sa.String(), nullable=True),
     sa.Column('discount', sa.Numeric(precision=10, scale=2), nullable=True),
     sa.Column('final_price', sa.Numeric(precision=10, scale=2), nullable=False),
-    sa.Column('processed', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -99,12 +67,6 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_orders_id'), table_name='orders')
     op.drop_index('idx_user_order_date', table_name='orders')
     op.drop_table('orders')
-    op.drop_index(op.f('ix_notifications_id'), table_name='notifications')
-    op.drop_table('notifications')
-    op.drop_index(op.f('ix_expense_analysis_id'), table_name='expense_analysis')
-    op.drop_table('expense_analysis')
-    op.drop_index(op.f('ix_budgets_id'), table_name='budgets')
-    op.drop_table('budgets')
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')

@@ -5,13 +5,10 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from app.core.config import settings
 from app.db.base import Base
-
-# Import all models here so Alembic can detect them
-
-from app.db.models.budget import *
-from app.db.models.notification import *
 from app.db.models.order import *
 from app.db.models.user import *
+
+# Import all models here so Alembic can detect them
 
 
 # Read from environment variable or fallback to settings module

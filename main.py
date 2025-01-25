@@ -6,7 +6,7 @@ from app.api.v1.endpoints import analytics, orders, users
 app = FastAPI(title="Grocery Tracker API")
 
 
-@app.get("/")
+@app.get("/", tags=["Health Check"])
 def root():
     return {"message": "Welcome to Grocery Tracker API"}
 
@@ -21,7 +21,7 @@ app.add_middleware(
 # Include API routes
 app.include_router(users.router, prefix="/users", tags=["Users"])
 app.include_router(orders.router, prefix="/orders", tags=["Orders"])
-# app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
+app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 
 
 if __name__ == "__main__":

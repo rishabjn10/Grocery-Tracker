@@ -1,5 +1,5 @@
 # Define directories to exclude
-EXCLUDE_DIRS = .venv,__pycache__
+EXCLUDE_DIRS = .venv,__pycache__,alembic
 
 # Define the targets for each tool
 .PHONY: all flake8 isort autopep8
@@ -10,7 +10,7 @@ lint: isort autopep8 flake8
 # Target to run isort and skip excluded directories
 isort:
 	@echo "---Running isort format---"
-	pdm run isort . --skip .venv --skip __pycache__
+	pdm run isort . --skip .venv --skip __pycache__ --skip alembic
 
 # Target to run autopep8 and exclude directories
 autopep8:

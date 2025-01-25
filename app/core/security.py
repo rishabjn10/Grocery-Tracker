@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
+
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+
 from app.core.config import settings
-from fastapi import HTTPException, Depends, status
-from fastapi.security import OAuth2PasswordBearer
 
 # Password hashing setup
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -13,6 +15,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", scheme_name="Bearer")
 
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
+
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)

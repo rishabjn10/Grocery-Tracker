@@ -18,4 +18,3 @@ class User(Base):
         timezone.utc), onupdate=datetime.now(timezone.utc))
 
     orders = relationship("Order", back_populates="user", lazy="dynamic")
-    budgets = relationship("Budget", back_populates="user", lazy="dynamic")
