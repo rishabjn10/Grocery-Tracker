@@ -1,4 +1,4 @@
-from sqlalchemy import func
+from sqlalchemy import String, cast, func
 from sqlalchemy.orm import Session
 
 from app.db.models.order import Order, OrderItem
@@ -33,10 +33,17 @@ def get_category_wise_spending(db: Session, user_id: int):
 
 def get_monthly_spending_trend(db: Session, user_id: int):
     results = (
-        db.query(func.strftime("%Y-%m", Order.order_date),
-                 func.sum(Order.final_price))
+        db.query(
+            func.concat(
+                cast(Order.order_year, String),
+                "-",
+                func.lpad(cast(Order.order_month, String), 2, "0"),
+            ).label("month"),
+            func.sum(Order.final_price).label("total_spent"),
+        )
         .filter(Order.user_id == user_id)
-        .group_by(func.strftime("%Y-%m", Order.order_date))
+        .group_by(Order.order_year, Order.order_month)
+        .order_by(Order.order_year, Order.order_month)
         .all()
     )
     return [

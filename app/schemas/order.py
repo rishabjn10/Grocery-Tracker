@@ -17,6 +17,7 @@ class OrderItem(BaseModel):
     unit_price: float
     total_price: float
 
+
 class OrderItemResponse(BaseModel):
     id: int
     item_name: str
@@ -27,6 +28,7 @@ class OrderItemResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
 
 class OrderResponse(BaseModel):
     id: int

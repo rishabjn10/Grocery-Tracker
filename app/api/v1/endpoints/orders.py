@@ -2,13 +2,14 @@ import os
 import shutil
 import tempfile
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
 from app.db.session import get_db
 from app.schemas.order import OrderResponse
-from app.services.order_service import get_order_by_id, process_order_screenshot
+from app.services.order_service import (get_order_by_id,
+                                        process_order_screenshot)
 
 router = APIRouter()
 
@@ -34,7 +35,8 @@ async def upload_order_screenshot(
         )
 
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing file: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Error processing file: {str(e)}")
 
     finally:
         # Ensure the temporary file is deleted after processing

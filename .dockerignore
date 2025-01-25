@@ -1,0 +1,33 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+.venv/
+
+# Ignore build and log files
+build/
+dist/
+*.log
+*.sqlite
+
+# Ignore sensitive information
+secrets/
+keys/
+
+# Ignore local project settings
+.idea/
+.vscode/
+.DS_Store
+.git
+.gitignore
+
+# Ignore compiled files
+*.egg-info
+*.egg
+*.swp
+
+# Ignore PDM build cache
+__pypackages__/

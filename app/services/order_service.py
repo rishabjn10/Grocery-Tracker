@@ -92,7 +92,8 @@ def get_order_by_id(db: Session, order_id: int, user_id: int) -> OrderResponse:
         )
 
     # Convert order items to response format
-    order_items = db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
+    order_items = db.query(OrderItem).filter(
+        OrderItem.order_id == order.id).all()
 
     return OrderResponse(
         id=order.id,
