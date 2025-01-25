@@ -3,7 +3,7 @@
 ![Grocery Tracker]
 
 ## Overview
-The **Grocery Tracker** is a smart application that utilizes OCR (Optical Character Recognition) and LLM (Large Language Model) capabilities to automatically extract order details from uploaded receipts. This data is used to track spending patterns and analyze financial habits. The system also includes budget alerts to notify users when they exceed their weekly or monthly spending limits.
+The **Grocery Tracker** is a smart application that utilizes OCR (Optical Character Recognition) and LLM (Large Language Model) capabilities to automatically extract order details from uploaded receipts. This data is used to track spending patterns and analyze financial habits.
 
 ## Tech Stack
 

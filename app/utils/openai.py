@@ -198,6 +198,10 @@ def parse_order_screenshot(image_path: str):
             temperature=1,
             max_completion_tokens=2048,
         )
+        prompt_tokens = response.usage.prompt_tokens
+        completion_tokens = response.usage.completion_tokens
+        total_cost = ((prompt_tokens*2.5)/1000000) + ((completion_tokens*1.25)/1000000) #Based on current pricing of OpenAI GPT-4o
+        print(f"Total openai usage: ${total_cost}")
         extracted_data = response.choices[0].message.content
         parsed_data = json.loads(extracted_data)
 
